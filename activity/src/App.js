@@ -38,14 +38,6 @@ function App() {
     );
   }, []);
 
-  // function handleChangeCities(e){
-  //   setSelectedCity(e.target.value); 
-  //   fetcher(
-  //     "cities",
-  //     `https://crio-location-selector.onrender.com/country=${selectedCountry}/state=${selectedCity}/cities`
-  //   );
-  //   setBool(true);
-  // }
   function handleChange(e, isCity = false) {
     console.log("handleChange called");
     const variables = e.target.value;
@@ -74,7 +66,7 @@ function App() {
 
       {/* countries */}
 
-      <select onChange={handleChange} style={{ height: "40px" }} defaultValue="Select Country">
+      <select onClick={handleChange} style={{ height: "40px" }} defaultValue="Select Country">
         <option disabled>Select Country</option>
         {countries.length > 0 && countries.map((opt, idx) => (
           <option value={opt} id={idx}>
