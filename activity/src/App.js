@@ -66,7 +66,7 @@ function App() {
 
       {/* countries */}
 
-      <select onClick={handleChange} style={{ height: "40px" }} defaultValue="Select Country">
+      <select onChange={handleChange} style={{ height: "40px" }} defaultValue="Select Country">
         <option disabled>Select Country</option>
         {countries.length > 0 && countries.map((opt, idx) => (
           <option value={opt} id={idx}>
