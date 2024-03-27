@@ -15,6 +15,7 @@ function App() {
   async function fetcher(toSet, API) {
     let response = await fetch(API);
     let data = await response.json();
+    console.log("Fetched data for", toSet, ":", data);
     switch (toSet) {
       case "countries":
         setCountries(data);
@@ -73,9 +74,9 @@ function App() {
 
       {/* countries */}
 
-      <select onClick={handleChange} style={{ height: "40px" }} defaultValue="Select Country">
+      <select onChange={handleChange} style={{ height: "40px" }} defaultValue="Select Country">
         <option disabled>Select Country</option>
-        {countries.map((opt, idx) => (
+        {countries.length > 0 && countries.map((opt, idx) => (
           <option value={opt} id={idx}>
             {opt}
           </option>
@@ -91,7 +92,7 @@ function App() {
         defaultValue="Select State"
       >
         <option disabled>Select State</option>
-        {states.length && states.map((opt, idx) => (
+        {states.length > 0 && states.map((opt, idx) => (
           <option value={opt} id={idx}>
             {opt}
           </option>
@@ -114,7 +115,6 @@ function App() {
           </option>
         ))}
       </select>
-      {console.log(bool)}
       {bool &&  <h2>You selected {selectedCity}, {selectedState}, {selectedCountry}</h2>}
     </div>
   );
