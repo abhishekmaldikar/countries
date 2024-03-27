@@ -46,26 +46,29 @@ function App() {
   //   setBool(true);
   // }
   function handleChange(e, isCity = false) {
-    console.log("handleChange called");
     const variables = e.target.value;
     if (isCity) {
+      // Fetch cities based on selected country and state
       fetcher(
         "cities",
         `https://crio-location-selector.onrender.com/country=${selectedCountry}/state=${variables}/cities`
       );
       setShowCities(false);
       setSelectedState(variables);
+      setSelectedCity(""); // Reset selected city when state changes
       setBool(false);
-      return;
+    } else {
+      // Fetch states based on selected country
+      fetcher(
+        "states",
+        `https://crio-location-selector.onrender.com/country=${variables}/states`
+      );
+      setShowState(false);
+      setSelectedCountry(variables);
+      setSelectedState(""); // Reset selected state when country changes
+      setSelectedCity(""); // Reset selected city when country changes
+      setBool(false);
     }
-    fetcher(
-      "states",
-      `https://crio-location-selector.onrender.com/country=${variables}/states`
-    );
-  
-    setShowState(false);
-    setSelectedCountry(variables);
-    setBool(false);
   }
   return (
     <div className="App">
@@ -108,7 +111,7 @@ function App() {
         defaultValue="Select City"
       >
         <option disabled>Select City</option>
-        {cities.map((opt, idx) => (
+        {cities.length > 0 && cities.map((opt, idx) => (
           <option value={opt} id={idx}>
             {opt}
           </option>
