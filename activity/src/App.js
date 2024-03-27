@@ -10,25 +10,28 @@ function App() {
   const [selectedCity, setSelectedCity] = useState("");
   const [cities, setCities] = useState([]);
   const [showCities, setShowCities] = useState(true);
-  const [bool , setBool] = useState(false)
+  const [bool, setBool] = useState(false);
 
   async function fetcher(toSet, API) {
-    let response = await fetch(API);
-    let data = await response.json();
-    console.log("Fetched data for", toSet, ":", data);
-    switch (toSet) {
-      case "countries":
-        setCountries(data);
-        break;
-      case "states":
-        setStates(data);
-        break;
-      case "cities":
-        setCities(data);
-        break;
-      default:
-        console.log("cant update the data");
-        break;
+    try {
+      let response = await fetch(API);
+      let data = await response.json();
+      switch (toSet) {
+        case "countries":
+          setCountries(data);
+          break;
+        case "states":
+          setStates(data);
+          break;
+        case "cities":
+          setCities(data);
+          break;
+        default:
+          console.log("cant update the data");
+          break;
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
   useEffect(() => {
@@ -55,7 +58,7 @@ function App() {
       "states",
       `https://crio-location-selector.onrender.com/country=${variables}/states`
     );
-  
+
     setShowState(false);
     setSelectedCountry(variables);
     setBool(false);
@@ -66,13 +69,18 @@ function App() {
 
       {/* countries */}
 
-      <select onChange={handleChange} style={{ height: "40px" }} defaultValue="Select Country">
+      <select
+        onChange={handleChange}
+        style={{ height: "40px" }}
+        defaultValue="Select Country"
+      >
         <option disabled>Select Country</option>
-        {countries.length > 0 && countries.map((opt, idx) => (
-          <option value={opt} id={idx}>
-            {opt}
-          </option>
-        ))}
+        {countries.length > 0 &&
+          countries.map((opt, idx) => (
+            <option value={opt} id={idx}>
+              {opt}
+            </option>
+          ))}
       </select>
 
       {/* State */}
@@ -84,30 +92,38 @@ function App() {
         defaultValue="Select State"
       >
         <option disabled>Select State</option>
-        {states.length > 0 && states.map((opt, idx) => (
-          <option value={opt} id={idx}>
-            {opt}
-          </option>
-        ))}
+        {states.length > 0 &&
+          states.map((opt, idx) => (
+            <option value={opt} id={idx}>
+              {opt}
+            </option>
+          ))}
       </select>
 
       {/* cities */}
 
       <select
-        
         style={{ height: "40px", width: "200px" }}
         disabled={showCities && true}
-        onChange={(e) => { setSelectedCity(e.target.value); setBool(true); }}
+        onChange={(e) => {
+          setSelectedCity(e.target.value);
+          setBool(true);
+        }}
         defaultValue="Select City"
       >
         <option disabled>Select City</option>
-        {cities.length > 0 && cities.map((opt, idx) => (
-          <option value={opt} id={idx}>
-            {opt}
-          </option>
-        ))}
+        {cities.length > 0 &&
+          cities.map((opt, idx) => (
+            <option value={opt} id={idx}>
+              {opt}
+            </option>
+          ))}
       </select>
-      {bool &&  <h2>You selected {selectedCity}, {selectedState}, {selectedCountry}</h2>}
+      {bool && (
+        <h2>
+          You selected {selectedCity}, {selectedState}, {selectedCountry}
+        </h2>
+      )}
     </div>
   );
 }
